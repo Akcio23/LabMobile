@@ -1,11 +1,10 @@
 import { Router } from "express";
+import controllerRegister from "../controllers/controllerRegister.js";
 
 const routerRegister = Router();
 
-routerRegister.post('/register', (req, res) => {
-  const { email, password } = req.body;
+const createUser = new controllerRegister();
 
-  res.json({ message: 'Registro realizado com sucesso!' });
-});
+routerRegister.post('/register', createUser.register);
 
 export default routerRegister;
