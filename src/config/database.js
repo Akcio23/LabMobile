@@ -1,21 +1,15 @@
-// filepath: c:\Users\Pedro PC\Desktop\faculdade\trab_mobile\src\config\database.js
 import mongoose from 'mongoose'
+import 'dotenv/config'
 
-const dbUrl = ''
-
-console.log(dbUrl)
+const dbUrl = process.env.URI_BD
 
 const conectDataBase = () => {
-  mongoose.connect(dbUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 10000,
-  })
+  mongoose.connect(dbUrl)
   .then(() => {
-    console.log("✅ Conectado ao MongoDB Atlas");
+    console.log("✅ connected to MongoDB");
   })
   .catch((err) => {
-    console.error("❌ Erro de conexão:", err);
+    console.error("❌ Error connecting:", err);
   });
 }
 
