@@ -1,11 +1,10 @@
 import { Router } from "express";
+import controllerAuthentication from "../controllers/controllerAuthentication.js";
 
 const routerAuthentication = Router();
 
-routerAuthentication.post('/login', (req, res) => {
-  const { email, password } = req.body;
+const signin = new controllerAuthentication();
 
-  res.json({ message: 'Login realizado com sucesso!' });
-});
+routerAuthentication.post('/login', signin.login);
 
 export default routerAuthentication;
