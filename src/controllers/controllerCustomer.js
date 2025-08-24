@@ -6,6 +6,8 @@ class controllerCustomer {
         this.checkCustomerExists = this.checkCustomerExists.bind(this);
         this.listCustomers = this.listCustomers.bind(this);
         this.getCustomerById = this.getCustomerById.bind(this);
+        this.updateCustomer = this.updateCustomer.bind(this);
+        this.deleteCustomer = this.deleteCustomer.bind(this);
     }
 
     async createCustomer(req, res) {
@@ -96,6 +98,74 @@ class controllerCustomer {
             console.error('Error getting customer', error);
             return res.status(500).json({
                 message: 'Error getting customer'
+            });
+        }
+    }
+
+    async updateCustomer(req, res) {
+        try {
+            
+            const { id } = req.params;
+            const updateData = req.body;
+
+            const customer = await Customer.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+            if (!customer) {
+                return res.status(404).send({ message: 'Customer not found' });
+            }
+
+            return res.status(200).json(customer)
+        } catch (error) {
+
+            if (error.name === 'CastError') {
+                return res.status(400).json({
+                    message: 'Invalid ID format'
+                });
+            }
+
+            if (error.code === 11000) {
+                return res.status(409).json({
+                    message: 'CPF/CNPJ or Email already exists'
+                });
+            }
+
+            if (error.name === 'ValidationError') {
+                return res.status(400).json({
+                    message: 'Validation error',
+                    details: error.message
+                });
+            }
+
+            console.error('Error updating customer', error);
+            return res.status(500).json({
+                message: 'Error updating customer'
+            });
+        }
+    }
+    
+    async deleteCustomer(req, res) {
+        try {
+
+            const { id } = req.params;
+
+            const customer = await Customer.findByIdAndDelete(id);
+
+            if (!customer) {
+                return res.status(404).send({ message: 'Customer not found'});
+            }
+
+            return res.status(200).send({ message: 'Customer deleted successfully' });
+
+        } catch (error) {
+            
+            if (error.name === 'CastError') {
+                return res.status(400).json({
+                    message: 'Invalid ID format'
+                });
+            }
+
+            console.error('Error deleting customer', error);
+            return res.status(500).json({
+                message: 'Error deleting customer'
             });
         }
     }
