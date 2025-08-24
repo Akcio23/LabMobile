@@ -42,5 +42,21 @@ const customerSchema = new mongoose.Schema({
     }
 }, {timestamps: true});
 
+customerSchema.set('toJSON', {
+    transform: function(doc, ret) {
+        return {
+            _id: ret._id,
+            name: ret.name,
+            cnpjCpf: ret.cnpjCpf,
+            address: ret.address,
+            phone: ret.phone,
+            email: ret.email,
+            createdAt: ret.createdAt,
+            updatedAt: ret.updatedAt,
+        }
+    },
+    versionKey: false
+});
+
 const Customer = mongoose.model('Customer', customerSchema);
 export default Customer;
