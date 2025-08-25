@@ -4,6 +4,7 @@ import conectDataBase from './config/database.js';
 import routerUser from './router/routerUser.js';
 import routerRegister from './router/routerRegister.js';
 import routerAuthentication from './router/routerAuthentication.js';
+import routerCustomer from './router/routerCustomer.js';
 import verifyAuth from './middleware/verifyAuth.js';
 
 const app = express();
@@ -28,6 +29,7 @@ app.use('/', routerRegister);
 app.use('/', routerAuthentication);
 
 app.use('/', verifyAuth, routerUser);
+app.use('/', verifyAuth, routerCustomer);
 
 app.listen(PORT, () => {
   console.log(`Server ON ${PORT}`);
