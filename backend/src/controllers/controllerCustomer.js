@@ -1,4 +1,5 @@
 import Customer from '../models/Customer.js';
+import Order from '../models/Order.js';
 
 class controllerCustomer {
     constructor() {
@@ -147,13 +148,27 @@ class controllerCustomer {
 
             const { id } = req.params;
 
+            const activeOrders = await Order.find({
+                customer: id,
+                status: { $in: ['pendente', 'em_producao'] }
+            });
+
+            if (activeOrders.length > 0) {
+                return res.status(400).json({
+                    message: 'Não é possível deletar cliente com pedidos pendentes ou em produção',
+                    activeOrders: activeOrders.length
+                });
+            }
+
             const customer = await Customer.findByIdAndDelete(id);
 
             if (!customer) {
-                return res.status(404).send({ message: 'Customer not found'});
+                return res.status(404).json({ message: 'Customer not found'});
             }
 
-            return res.status(200).send({ message: 'Customer deleted successfully' });
+            return res.status(200).json({
+                message: 'Customer deleted successfully'
+            })
 
         } catch (error) {
             
