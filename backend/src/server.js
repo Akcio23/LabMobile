@@ -5,6 +5,7 @@ import routerUser from './router/routerUser.js';
 import routerRegister from './router/routerRegister.js';
 import routerAuthentication from './router/routerAuthentication.js';
 import routerCustomer from './router/routerCustomer.js';
+import routerOrder from './router/routerOrder.js';
 import verifyAuth from './middleware/verifyAuth.js';
 
 const app = express();
@@ -30,6 +31,7 @@ app.use('/', routerAuthentication);
 
 app.use('/', verifyAuth, routerUser);
 app.use('/', verifyAuth, routerCustomer);
+app.use('/', verifyAuth, routerOrder);
 
 app.listen(PORT, () => {
   console.log(`Server ON ${PORT}`);
