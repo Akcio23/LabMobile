@@ -6,7 +6,7 @@ import controllerRegister from "../controllers/controllerRegister.js";
  * /register:
  *   post:
  *     summary: Registra um novo usuário
- *     tags: [check-in]
+ *     tags: [Check-in]
  *     requestBody:
  *       required: true
  *       content:

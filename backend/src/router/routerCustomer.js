@@ -6,7 +6,7 @@ const customer = new controllerCustomer();
 
 /**
  * @swagger
- * /customers:
+ * client/customers:
  *   post:
  *     summary: Cria um novo cliente
  *     tags: [Cliente]

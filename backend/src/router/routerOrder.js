@@ -7,7 +7,7 @@ const order = new controllerOrder();
 
 /**
  * @swagger
- * /orders:
+ * requests/orders:
  *   post:
  *     summary: Cria um novo pedido
  *     tags: [Pedido]

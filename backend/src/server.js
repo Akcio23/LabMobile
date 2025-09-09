@@ -31,8 +31,8 @@ app.use('/', routerRegister);
 app.use('/', routerAuthentication);
 
 app.use('/user', verifyAuth, routerUser);
-app.use('/customer', verifyAuth, routerCustomer);
-app.use('/order', verifyAuth, routerOrder);
+app.use('/client', verifyAuth, routerCustomer);
+app.use('/requests', verifyAuth, routerOrder);
 
 // setup Swagger
 setupSwagger(app);

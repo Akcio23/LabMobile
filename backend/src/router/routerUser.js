@@ -6,7 +6,7 @@ const user = new controllerUser();
 
 /**
  * @swagger
- * /search:
+ * user/search:
  *   post:
  *     summary: Retorna os dados do usuário (exceto a senha)
  *     tags: [Usuário]
