@@ -7,6 +7,7 @@ import routerAuthentication from './router/routerAuthentication.js';
 import routerCustomer from './router/routerCustomer.js';
 import routerOrder from './router/routerOrder.js';
 import verifyAuth from './middleware/verifyAuth.js';
+import setupSwagger from './config/swagger.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,9 +30,12 @@ app.get('/', (req, res) => {
 app.use('/', routerRegister);
 app.use('/', routerAuthentication);
 
-app.use('/', verifyAuth, routerUser);
-app.use('/', verifyAuth, routerCustomer);
-app.use('/', verifyAuth, routerOrder);
+app.use('/user', verifyAuth, routerUser);
+app.use('/customer', verifyAuth, routerCustomer);
+app.use('/order', verifyAuth, routerOrder);
+
+// setup Swagger
+setupSwagger(app);
 
 app.listen(PORT, () => {
   console.log(`Server ON ${PORT}`);
