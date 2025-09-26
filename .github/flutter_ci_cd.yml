@@ -27,36 +27,36 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('app/pubspec.yaml') }}
+          key: ${{ runner.os }}-pub-${{ hashFiles('footflow/pubspec.yaml') }}
 
       - name: Install dependencies
         run: flutter pub get
-        working-directory: ./app
+        working-directory: ./footflow
 
       - name: Analyze code
         run: flutter analyze
-        working-directory: ./app
+        working-directory: ./footflow
 
       - name: Run tests
         run: flutter test --coverage
-        working-directory: ./app
+        working-directory: ./footflow
 
       - name: Build Android APK
         run: flutter build apk --release
-        working-directory: ./app
+        working-directory: ./footflow
 
       - name: Build iOS IPA
         run: flutter build ipa --release --no-codesign
-        working-directory: ./app
+        working-directory: ./footflow
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v3
         with:
           name: app-release.apk
-          path: app/build/app/outputs/flutter-apk/app-release.apk
+          path: footflow/build/footflow/outputs/flutter-apk/app-release.apk
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v3
         with:
           name: app-release.ipa
-          path: app/build/ios/ipa/*.ipa
+          path: footflow/build/ios/ipa/*.ipa

@@ -1,6 +1,6 @@
 {
-    "name": "app",
-    "short_name": "app",
+    "name": "footflow",
+    "short_name": "footflow",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
