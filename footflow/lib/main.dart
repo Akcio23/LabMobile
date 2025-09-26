@@ -10,8 +10,16 @@ import 'views/new_pedido_screen.dart';
 import 'views/new_client_screen.dart';
 import 'views/clientes_screen.dart';
 import 'views/configuracoes_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart'; 
+
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MultiProvider(
       providers: [

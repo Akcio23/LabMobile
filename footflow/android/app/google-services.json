@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "15839048645",
+    "project_id": "pi5semestre-dbf95",
+    "storage_bucket": "pi5semestre-dbf95.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15839048645:android:984a9371de8e644de3d1ac",
+        "android_client_info": {
+          "package_name": "com.example.footflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsQEueYjyWgY2l9IZYlIkgbsAmrtSIE4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
