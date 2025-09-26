@@ -50,13 +50,13 @@ jobs:
         working-directory: ./footflow
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-release.apk
           path: footflow/build/footflow/outputs/flutter-apk/app-release.apk
 
       - name: Upload IPA artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-release.ipa
           path: footflow/build/ios/ipa/*.ipa
