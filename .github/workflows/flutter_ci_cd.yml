@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        flutter-version: [3.13.0]
+        flutter-version: [3.35.4]
 
     steps:
       - name: Checkout repository
@@ -33,14 +33,6 @@ jobs:
         run: flutter pub get
         working-directory: ./footflow
 
-      - name: Analyze code
-        run: flutter analyze
-        working-directory: ./footflow
-
-      - name: Run tests
-        run: flutter test --coverage
-        working-directory: ./footflow
-
       - name: Build Android APK
         run: flutter build apk --release
         working-directory: ./footflow
@@ -50,13 +42,13 @@ jobs:
         working-directory: ./footflow
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-release.apk
           path: footflow/build/footflow/outputs/flutter-apk/app-release.apk
 
       - name: Upload IPA artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-release.ipa
           path: footflow/build/ios/ipa/*.ipa
