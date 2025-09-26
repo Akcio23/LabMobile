@@ -12,14 +12,18 @@ import 'views/clientes_screen.dart';
 import 'views/configuracoes_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; 
+import 'package:firebase_analytics/observer.dart'; 
+import 'package:firebase_analytics/firebase_analytics.dart'; 
 
-
-void main() {
+void main() async { // 1. Adicionar 'async' aqui
+  
   WidgetsFlutterBinding.ensureInitialized();
 
-  Firebase.initializeApp(
+  // 2. Adicionar 'await' aqui
+  await Firebase.initializeApp( 
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   runApp(
     MultiProvider(
       providers: [
@@ -34,6 +38,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +50,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      navigatorObservers: [observer],
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginScreen(),

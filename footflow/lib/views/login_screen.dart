@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controllers/login_controller.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -63,6 +64,10 @@ class LoginScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
+                             FirebaseAnalytics.instance.logEvent(
+                                name: 'btn_login_clicado',
+                                parameters: {'teclado_tipo': 'phone'} // Exemplo de parâmetro
+                            );
                             await loginController.login(userController.text, passwordController.text);
                             if (loginController.isLoggedIn) {
                               Navigator.pushReplacementNamed(context, '/dashboard');

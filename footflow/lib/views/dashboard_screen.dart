@@ -2,13 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controllers/pedido_controller.dart';
 import 'package:footflow/widgets/bottom_nav_bar.dart';
+import 'package:firebase_performance/firebase_performance.dart'; 
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
+  
 
 @override
   Widget build(BuildContext context) {
+    final trace = FirebasePerformance.instance.newTrace('render_dashboard_page');
+    trace.start();
+
+    // 2. Parar o Trace após o Flutter desenhar o primeiro frame (fim do build)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      trace.stop();
+    });
+
     final pedidoController = Provider.of<PedidoController>(context);
+
 
     return Scaffold(
       appBar: AppBar(
@@ -46,6 +58,10 @@ class DashboardScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () {
+                  FirebaseAnalytics.instance.logEvent(
+                    name: 'btn_criar_pedido_clicado',
+                    parameters: {'origem': 'dashboard'},
+                  );
                   Navigator.pushNamed(context, '/new-pedido');
                 },
                 icon: const Icon(Icons.add),
