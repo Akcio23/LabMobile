@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/pedido.dart';
 import '../models/cliente.dart';
+import 'package:firebase_performance/firebase_performance.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class PedidoController with ChangeNotifier {
   // Dados simulados com campo 'previsao'
@@ -72,18 +74,38 @@ class PedidoController with ChangeNotifier {
 
   List<Pedido> get pedidos => _pedidos;
 
-  void adicionarNovoPedido(Pedido novoPedido) {
-    _pedidos.add(novoPedido);
-    notifyListeners();
-  }
+  void adicionarNovoPedido(Pedido novoPedido) async { // Mude para async
+    final trace = FirebasePerformance.instance.newTrace('create_new_order');
+    await trace.start();
 
-  void atualizarStatusPedido(String pedidoId, String novoStatus) {
+    // Simulação da API
+    await Future.delayed(const Duration(milliseconds: 500)); 
+
+    _pedidos.add(novoPedido);
+    
+    await FirebaseAnalytics.instance.logEvent(
+        name: 'pedido_criado',
+        parameters: {'item_nome': novoPedido.item, 'quantidade': novoPedido.quantidade}
+    );
+
+    await trace.stop();
+    notifyListeners();
+}
+
+void atualizarStatusPedido(String pedidoId, String novoStatus) async { // Mude para async
     final pedidoIndex = _pedidos.indexWhere((p) => p.id == pedidoId);
     if (pedidoIndex != -1) {
-      _pedidos[pedidoIndex].status = novoStatus;
-      notifyListeners(); // Notifica todos os widgets para atualizar
+        
+        // APENAS ANALYTICS (sem trace, pois é uma operação rápida)
+        await FirebaseAnalytics.instance.logEvent(
+            name: 'status_pedido_atualizado',
+            parameters: {'pedido_id': pedidoId, 'novo_status': novoStatus}
+        );
+        
+        _pedidos[pedidoIndex].status = novoStatus;
+        notifyListeners(); 
     }
-  }
+}
 
   int get novosPedidos => _pedidos.where((p) => p.status == 'Novo').length;
   int get emProducaoPedidos => _pedidos.where((p) => p.status == 'Em Produção').length;
