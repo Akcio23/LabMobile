@@ -32,4 +32,6 @@ const user = new controllerUser();
 
 routerUser.post('/search', user.getUser);
 
+routerUser.post('/newpassword', user.resetPassword);
+
 export default routerUser
