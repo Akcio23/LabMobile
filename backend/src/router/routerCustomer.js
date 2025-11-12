@@ -14,9 +14,6 @@ const customer = new controllerCustomer();
  *         - street
  *         - number
  *         - neighborhood
- *         - city
- *         - state
- *         - zipCode
  *       properties:
  *         street:
  *           type: string
@@ -27,15 +24,6 @@ const customer = new controllerCustomer();
  *         neighborhood:
  *           type: string
  *           example: Distrito Industrial
- *         city:
- *           type: string
- *           example: Franca
- *         state:
- *           type: string
- *           example: SP
- *         zipCode:
- *           type: string
- *           example: 14400-000
  * 
  *     Customer:
  *       type: object

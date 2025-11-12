@@ -12,7 +12,7 @@ const customerSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 const numbers = v.replace(/\D/g, '');
                 return numbers.length === 11 || numbers.length === 14;
             },
@@ -20,12 +20,9 @@ const customerSchema = new mongoose.Schema({
         }
     },
     address: {
-        street: { type: String, required: true, trim: true},
-        number: { type: String, required: true, trim: true},
-        neighborhood: { type: String, required: true, trim: true},
-        city: { type: String, required: true, trim: true},
-        state: { type: String, required: true, trim: true},
-        zipCode: { type: String, required: true, trim: true}
+        street: { type: String, required: true, trim: true },
+        number: { type: String, required: true, trim: true },
+        neighborhood: { type: String, required: true, trim: true },
     },
     phone: {
         type: String,
@@ -40,10 +37,10 @@ const customerSchema = new mongoose.Schema({
         trim: true,
         match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email format'],
     }
-}, {timestamps: true});
+}, { timestamps: true });
 
 customerSchema.set('toJSON', {
-    transform: function(doc, ret) {
+    transform: function (doc, ret) {
         return {
             _id: ret._id,
             name: ret.name,
