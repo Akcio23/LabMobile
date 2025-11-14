@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
               TextFormField(
                 controller: userController,
                 decoration: InputDecoration(
-                  labelText: 'Usuário',
+                  labelText: 'E-mail',
                   prefixIcon: const Icon(Icons.person),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide.none),
                   filled: true,
@@ -55,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                         const Padding(
                           padding: EdgeInsets.only(top: 8.0),
                           child: Text(
-                            'Usuário ou senha inválidos!',
+                            'E-mail ou senha inválidos!',
                             style: TextStyle(color: Colors.red, fontSize: 14),
                           ),
                         ),
@@ -66,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () async {
                              FirebaseAnalytics.instance.logEvent(
                                 name: 'btn_login_clicado',
-                                parameters: {'teclado_tipo': 'phone'} // Exemplo de parâmetro
+                                parameters: {'teclado_tipo': 'phone'} 
                             );
                             await loginController.login(userController.text, passwordController.text);
                             if (loginController.isLoggedIn) {
@@ -90,10 +90,12 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text('Esqueceu a senha? ', style: TextStyle(color: Colors.black54)),
+                  const Text('Ainda não tem cadastro? ', style: TextStyle(color: Colors.black54)),
                   InkWell(
-                    onTap: () {},
-                    child: const Text('Contate o suporte', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: const Text('Registrar', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
