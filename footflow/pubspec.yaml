@@ -39,6 +39,8 @@ dependencies:
   firebase_analytics: 12.0.2     
   firebase_remote_config: 6.0.2
   firebase_performance: 0.11.1 
+  http: ^1.6.0
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
