@@ -11,7 +11,6 @@ class DashboardData {
     required this.deliveredCount,
   });
 
-  // Método de conversão de JSON (útil se o backend retornar um objeto com estas estatísticas)
   factory DashboardData.fromJson(Map<String, dynamic> json) {
     return DashboardData(
       newCount: json['new'] as int,

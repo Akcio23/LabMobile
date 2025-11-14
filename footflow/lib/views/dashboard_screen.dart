@@ -8,28 +8,21 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
   
-
 @override
   Widget build(BuildContext context) {
     final trace = FirebasePerformance.instance.newTrace('render_dashboard_page');
     trace.start();
 
-    // 2. Parar o Trace após o Flutter desenhar o primeiro frame (fim do build)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       trace.stop();
     });
 
     final pedidoController = Provider.of<PedidoController>(context);
 
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.black87),
-          onPressed: () {},
-        ),
         title: const Text(
           'Dashboard',
           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
@@ -83,7 +76,6 @@ class DashboardScreen extends StatelessWidget {
   }
 }
 
-// Widget auxiliar para os cartões de estatísticas
 class _StatisticCard extends StatelessWidget {
   final String title;
   final String value;
@@ -104,7 +96,7 @@ class _StatisticCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      elevation: 0, // Sem sombra para um visual mais clean
+      elevation: 0, 
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

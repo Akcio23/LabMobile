@@ -1,47 +1,98 @@
-import 'cliente.dart'; 
+import 'order_item.dart';
+import 'cliente.dart';
 
 class Pedido {
-  final String id;
-  final String item;
-  final int quantidade;
-  final DateTime data;
-  String status; 
-  final Cliente cliente;
-  final DateTime previsao;  // Adicionando o campo previsao
+  final String id; 
+  final int? orderNumber;
+  final String customerId; 
+  final Cliente? cliente; 
+  final String status;
+  final List<OrderItem> items;
+  final double totalAmount;
+  final String? observations;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Pedido({
     required this.id,
-    required this.item,
-    required this.quantidade,
-    required this.data,
-    required this.status,
-    required this.cliente,
-    required this.previsao,  // Incluindo previsao no construtor
+    required this.customerId,
+    this.orderNumber,
+    this.cliente,
+    this.status = 'pendente',
+    required this.items,
+    this.totalAmount = 0.0,
+    this.observations,
+    this.createdAt,
+    this.updatedAt,
   });
 
-  // Método de conversão de JSON (para consumo de API)
-  factory Pedido.fromJson(Map<String, dynamic> json) {
+  factory Pedido.createLocal({
+    required String customerId,
+    Cliente? cliente,
+    String status = 'pendente',
+    required List<OrderItem> items,
+    double totalAmount = 0.0,
+    String? observations,
+  }) {
     return Pedido(
-      id: json['id'] as String,
-      item: json['item'] as String,
-      quantidade: json['quantidade'] as int,
-      data: DateTime.parse(json['data'] as String),
-      status: json['status'] as String,
-      cliente: Cliente.fromJson(json['cliente']), // Converte o JSON do cliente
-      previsao: DateTime.parse(json['previsao'] as String), // Adicionando previsão no fromJson
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      customerId: customerId,
+      cliente: cliente,
+      status: status,
+      items: items,
+      totalAmount: totalAmount,
+      observations: observations,
+      orderNumber: null,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
   }
 
-  // Método de conversão para JSON (para enviar para a API)
-  Map<String, dynamic> toJson() {
+  factory Pedido.fromJson(Map<String, dynamic> json) {
+    final List<OrderItem> parsedItems = [];
+    if (json['items'] is List) {
+      for (final e in json['items']) {
+        parsedItems.add(OrderItem.fromJson(Map<String, dynamic>.from(e)));
+      }
+    }
+
+    String customerId = '';
+    Cliente? clienteObj;
+    if (json['customer'] is String) {
+      customerId = json['customer'];
+    } else if (json['customer'] is Map) {
+      final m = Map<String, dynamic>.from(json['customer']);
+      customerId = m['_id']?.toString() ?? (m['id']?.toString() ?? '');
+      try {
+        clienteObj = Cliente.fromJson(m);
+      } catch (e) {
+        clienteObj = null;
+      }
+    } else if (json['customerId'] != null) {
+      customerId = json['customerId'].toString();
+    }
+
+    return Pedido(
+      id: json['_id']?.toString() ?? json['id']?.toString() ?? '',
+      orderNumber: json['orderNumber'] is int ? json['orderNumber'] : (json['orderNumber'] != null ? int.tryParse('${json['orderNumber']}') : null),
+      customerId: customerId,
+      cliente: clienteObj,
+      status: json['status']?.toString() ?? 'pendente',
+      items: parsedItems,
+      totalAmount: (json['totalAmount'] ?? 0).toDouble(),
+      observations: json['observations']?.toString(),
+      createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt'].toString()) : null,
+      updatedAt: json['updatedAt'] != null ? DateTime.tryParse(json['updatedAt'].toString()) : null,
+    );
+  }
+
+  Map<String, dynamic> toApiJson() {
     return {
-      'id': id,
-      'item': item,
-      'quantidade': quantidade,
-      'data': data.toIso8601String(),
-      'status': status,
-      'cliente': cliente.toJson(), // Converte o cliente para JSON
-      'previsao': previsao.toIso8601String(),  // Adicionando previsão no toJson
+      'customer': customerId,
+      'items': items.map((i) => i.toJson()).toList(),
+      'totalAmount': totalAmount,
+      if (observations != null) 'observations': observations,
+      if (status.isNotEmpty) 'status': status,
     };
   }
 }

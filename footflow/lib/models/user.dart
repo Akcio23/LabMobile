@@ -1,7 +1,7 @@
 class User {
   final String username;
   final String password;
-  final String token; // Geralmente retornado após o login
+  final String token; 
 
   User({
     required this.username,
@@ -9,7 +9,6 @@ class User {
     required this.token,
   });
 
-  // Métodos de conversão (opcional, mas útil para APIs)
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       username: json['username'] as String,
